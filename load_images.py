@@ -12,7 +12,6 @@ def get_im_cv2(path, width, height):
 
 def load_train(width=80, height=45, n_classes=8):
     X_train = []
-    X_train_id = []
     y_train = []
     start_time = time.time()
 
@@ -28,7 +27,6 @@ def load_train(width=80, height=45, n_classes=8):
             flbase = os.path.basename(fl)
             img = get_im_cv2(fl, width, height)
             X_train.append(img)
-            X_train_id.append(flbase)
             y_train.append(index)
     
     X_train = np.array(X_train)
@@ -37,8 +35,27 @@ def load_train(width=80, height=45, n_classes=8):
     X_train = X_train.astype('float32')
     X_train = X_train / 255.0
     
-    y_zeros = np.zeros((y_train.shape[0], n_classes))
-    y_zeros[np.arange(y_train.shape[0]), y_train] = 1
-
     print('Read train data time: {} seconds'.format(round(time.time() - start_time, 2)))
-    return np.array(X_train), y_zeros, np.array(X_train_id)
+    return np.array(X_train), y_train
+
+def load_test(width=80, height=45):
+    path = os.path.join('input', 'test_stg1', '*.jpg')
+    files = sorted(glob.glob(path))
+    
+    X_test = []
+    X_test_id = []
+    for i, fl in enumerate(files):
+        if i % 20 == 0:
+            print('loading {} of {}'.format(i, len(files)))
+        flbase = os.path.basename(fl)
+        img = get_im_cv2(fl, width, height)
+        X_test.append(img)
+        X_test_id.append(flbase)
+        
+    X_test = np.array(X_test)
+    
+    X_test = X_test.astype('float32')
+    X_test = X_test / 255.0
+
+    return X_test, X_test_id
+
