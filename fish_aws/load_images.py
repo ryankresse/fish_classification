@@ -16,27 +16,26 @@ def load_train(width=80, height=45, n_classes=8):
     start_time = time.time()
 
     print('Read train images')
-    
-    #folders = ['SHARK']
+    #folders = ['SHARK', 'YFT']
     folders = ['ALB', 'BET', 'DOL', 'LAG', 'NoF', 'OTHER', 'SHARK', 'YFT']
     for fld in folders:
         index = folders.index(fld)
         print('Load folder {} (Index: {})'.format(fld, index))
-        path = os.path.join('fish_aws','input', 'train', fld, '*.jpg')
+        path = os.path.join('input', 'train', fld, '*.jpg')
         files = glob.glob(path)
-        files = [f for f in files if "flipped" not in f]
         for fl in files:
+            flbase = os.path.basename(fl)
             img = get_im_cv2(fl, width, height)
             X_train.append(img)
             y_train.append(index)
-        
+    
     X_train = np.array(X_train)
     y_train = np.array(y_train)
     
     #one hot encode
     y_train_mod = np.zeros((y_train.shape[0],8))
     y_train_mod[np.arange(y_train.shape[0]), y_train ] = 1
-
+    
     X_train = X_train.astype('float32')
     X_train = X_train / 255.0
     
@@ -44,7 +43,7 @@ def load_train(width=80, height=45, n_classes=8):
     return np.array(X_train), y_train_mod
 
 def load_test(width=80, height=45):
-    path = os.path.join('fish_aws','input', 'test_stg1', '*.jpg')
+    path = os.path.join('input', 'test_stg1', '*.jpg')
     files = sorted(glob.glob(path))
     
     X_test = []
