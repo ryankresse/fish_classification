@@ -13,7 +13,6 @@ def load_next_batch(paths, width=80, height=45):
     X_train = []
     start_time = time.time()
 
-    print('Loading next batch')
     for fl in paths:
         flbase = os.path.basename(fl)
         img = get_im_cv2(fl, width, height)
@@ -26,13 +25,13 @@ def load_next_batch(paths, width=80, height=45):
     #Normalize
     X_train = X_train / 255.0
     
-    print('Read train data time: {} seconds'.format(round(time.time() - start_time, 2)))
+   
     return X_train
 
 
 def one_hot_encode(labels):
     labels_encoded = np.zeros((labels.shape[0],8))
-    labels_encoded[np.arange(labels.shape[0]), labels] = 1
+    labels_encoded[np.arange(labels.shape[0]), labels.astype(int)] = 1
     return labels_encoded
 
 
