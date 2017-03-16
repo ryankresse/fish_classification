@@ -1,18 +1,17 @@
 from sklearn.model_selection import train_test_split
 import numpy as np
-
+import load_images
 
 class DataSet(object):
 
   def __init__(self,
-               images,
-               labels,
+               width=32,
+               height=32,
                val_size=0.2):
-    images = images.astype(np.float32)
     
-    #normalize
-    images = np.multiply(images, 1.0 / 255.0)
+    images, labels = load_images.load_train(width, height)
     
+     
     if val_size:
         X_train, X_val, y_train, y_val = train_test_split(images, labels, test_size=val_size, stratify=labels)
     

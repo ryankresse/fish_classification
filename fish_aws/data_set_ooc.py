@@ -2,6 +2,8 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 import pandas as pd
 import load_images_ooc
+import os
+import glob
 
 
 class DataSet(object):
@@ -35,7 +37,7 @@ class DataSet(object):
     path = os.path.join('input', 'test_stg1', '*.jpg')
     self._test_files = np.array(glob.glob(path))
     self._index_in_test_set = 0
-    self_.num_test_examples = test_files.shape[0]
+    self._num_test_examples = self._test_files.shape[0]
     
   @property
   def X_train(self):

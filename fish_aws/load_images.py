@@ -23,6 +23,7 @@ def load_train(width=80, height=45, n_classes=8):
         print('Load folder {} (Index: {})'.format(fld, index))
         path = os.path.join('input', 'train', fld, '*.jpg')
         files = glob.glob(path)
+        files = [f for f in files if 'flipped' not in files]
         for fl in files:
             flbase = os.path.basename(fl)
             img = get_im_cv2(fl, width, height)
