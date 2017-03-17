@@ -54,6 +54,12 @@ class DataSet(object):
   def get_validation_set(self):
     return self._X_val, self._y_val
   
+  def shuffle():
+    perm0 = np.arange(self._num_examples)
+    np.random.shuffle(perm0)
+    self._X_train = self._X_train[perm0]
+    self._y_train = self._y_train[perm0]
+
   #not really using this now, but keeping it around.
   def next_batch(self, batch_size, shuffle=True):
     """Return the next `batch_size` examples from this data set."""
